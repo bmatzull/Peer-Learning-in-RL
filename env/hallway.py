@@ -1,4 +1,4 @@
-import gym
+import gymnasium as gym
 import numpy as np
 
 
@@ -23,9 +23,9 @@ class Hallway(gym.Env):
         self.goal_location[0] = self.size[0] - 1
         self.terminate_on_goal = terminate_on_goal
 
-    def reset(self):
+    def reset(self, **kwargs):
         self.agent_location = np.copy(self.start_location)
-        return self.agent_location / (self.size - 1)
+        return self.agent_location / (self.size - 1), {}
 
     def step(self, action: int):
         assert self.action_space.contains(action), f"{action} is not a valid" \
@@ -43,7 +43,7 @@ class Hallway(gym.Env):
             reward = 1.0
             done = self.terminate_on_goal
 
-        return self.agent_location / (self.size - 1), reward, done, {}
+        return self.agent_location / (self.size - 1), reward, done, False, {}
 
     def render(self, mode="human"):
         raise NotImplementedError

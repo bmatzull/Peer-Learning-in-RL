@@ -1,7 +1,7 @@
 import argparse
 import datetime
 
-import gym
+import gymnasium as gym
 
 from pathlib import Path
 
@@ -22,6 +22,7 @@ from callbacks import PeerEvalCallback
 from utils import str2bool, add_default_values_to_parser, \
     log_reward_avg_in_wandb, add_default_values_to_train_parser, \
     new_random_seed, make_env, ControllerArguments
+
 
 
 def add_args():
@@ -113,8 +114,8 @@ if __name__ == '__main__':
 
     # init wandb
     wandb.tensorboard.patch(root_logdir=str_folder)
-    run = wandb.init(entity="jgu-wandb", config=args.__dict__,
-                     project="peer-learning",
+    run = wandb.init(entity="be20ma02-johannes-gutenberg-university-mainz", config=args.__dict__,
+                     project="bachelor",
                      monitor_gym=True, sync_tensorboard=False,
                      name=f"{args.save_name}__{args.job_id}",
                      notes=f"Peer Learning with {args.agent_count} agents on "
@@ -191,7 +192,7 @@ if __name__ == '__main__':
                 args.exploration_final_eps
             peer = DQNPeer(**args_for_agent, seed=new_random_seed())
 
-        elif agent_algo in ['Adversarial', 'Expert']:
+        elif agent_algo in ['Adversarial', 'Expert', 'IntermittentAdversary', 'ReformedAdversary']:
             class_str = f"predefined_agents." \
                         f"{args.env.split('-')[0]}{agent_algo}"
             peer = eval(class_str)(**args_for_agent, seed=new_random_seed())
@@ -240,7 +241,6 @@ if __name__ == '__main__':
 
     # train the peer group
     peer_group.learn(n_epochs, callbacks=callbacks,
-                     eval_log_path=str_folder,
                      max_epoch_len=max_episode_steps)
 
     log_reward_avg_in_wandb(callbacks)

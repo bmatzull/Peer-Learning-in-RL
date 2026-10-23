@@ -1,1 +1,3 @@
 from .room_peer import RoomAdversarial, RoomExpert
+from .intermittent_adversary import RoomIntermittentAdversary
+from .reformed_adversary import RoomReformedAdversary

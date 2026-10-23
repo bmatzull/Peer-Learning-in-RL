@@ -137,7 +137,7 @@ def make_peer_class(cls: Type[OffPolicyAlgorithm]):
                                        env=make_env(env, **env_args),
                                        seed=seed)
             # create noise matrix on the correct device
-            if hasattr(self.actor, "reset_noise"):
+            if hasattr(self, "actor") and hasattr(self.actor, "reset_noise"):
                 self.actor.reset_noise(self.env.num_envs)
 
             self.solo_training = solo_training
@@ -271,7 +271,8 @@ def make_peer_class(cls: Type[OffPolicyAlgorithm]):
 
         def value(self, observations) -> np.ndarray:
             """ Calculates the value of the observations. """
-            actions, _ = self.policy.predict(observations, False)
+            obs = np.array(observations).squeeze()
+            actions, _ = self.policy.predict(obs, False)
             return self.critique(observations, actions)
 
         def _update_trust(self, batch_size=10):

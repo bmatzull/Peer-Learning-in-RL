@@ -1,6 +1,6 @@
 import argparse
 import wandb
-import gym
+import gymnasium as gym
 import json
 
 import numpy as np
@@ -16,7 +16,6 @@ def make_env(env_str, n_envs=1, **env_args):
     for _ in range(n_envs):
         def env_func():
             env = Monitor(gym.make(env_str, **env_args))
-            env.seed(new_random_seed())
             return env
 
         envs.append(env_func)
@@ -86,7 +85,7 @@ def add_default_values_to_parser(parser):
                         choices=["cpu", "cuda", "auto"],
                         help="Device to use, either 'cpu', 'cuda' for GPU or "
                              "'auto'.")
-    parser.add_argument("--env", type=str, default="HalfCheetahBulletEnv-v0",
+    parser.add_argument("--env", type=str, default="Room-v21",
                         help="OpenAI Gym environment to perform algorithm on.")
     parser.add_argument("--env_args", action=StoreDictKeyPair,
                         nargs='*', metavar="KEY=VAL", default={})
@@ -95,17 +94,17 @@ def add_default_values_to_parser(parser):
     parser.add_argument("--wandb", type=str, default='offline',
                         choices=["online", "offline", "disabled"])
     parser.add_argument("--discrete-actions", type=str2bool, nargs="?",
-                        const=False, default=False)
+                        const=False, default=True)
     parser.add_argument("--save-dir", type=Path,
                         default=Path.cwd().joinpath("Experiments"))
 
     # Agents
     agent_parser = parser.add_argument_group("Agent")
     agent_parser.add_argument("--mix-agents", type=str, nargs='*',
-                              default=["SAC"])
+                              default=["DQN"])
 
     agent_parser.add_argument("--net-arch", type=int, nargs='*',
-                              action='append')
+                              action='append', default=[[256, 256]])
     agent_parser.add_argument("--load_paths", type=str, nargs='*',
                               default=[])
     agent_parser.add_argument("--agents_to_store", type=int, nargs='*',

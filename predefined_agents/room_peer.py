@@ -30,7 +30,7 @@ class RoomAdversarial(RoomExpert):
 
 
 if __name__ == '__main__':
-    import gym
+    import gymnasium as gym
     import env as blabla  # noqa
     env = gym.make("Room-v21", length=21, dims=3)
     # model = RoomExpert()
@@ -39,7 +39,7 @@ if __name__ == '__main__':
     rewards = []
 
     for _ in range(1):
-        obs_ = env.reset()  # noqa
+        obs_, _ = env.reset()  # noqa
 
         done = False
         reward = 0
@@ -56,7 +56,8 @@ if __name__ == '__main__':
             old = new
 
             a = model._predict(obs_)  # noqa
-            obs_, r, done, info = env.step(a)
+            obs_, r, terminated, truncated, info = env.step(a)
+            done = terminated or truncated
             reward += r
         rewards.append(reward)
 

@@ -1,4 +1,4 @@
-import gym
+import gymnasium as gym
 import numpy as np
 from .hallway import Hallway
 
@@ -12,20 +12,20 @@ class RoomEnv(Hallway):
                                                 dtype=np.float64)
         self.np_random = np.random.default_rng()
 
-    def reset(self):
-        pos = super().reset()
+    def reset(self, **kwargs):
+        pos, info = super().reset(**kwargs)
         # goal location at the boarder
         # one dimension needs to be 0 or size -1
         self.goal_location = self.np_random.integers(0, self.size - 1)
         d = self.np_random.choice(len(self.size))
         self.goal_location[d] = self.np_random.choice([0, self.size[d] - 1])
 
-        return np.hstack((pos, self.goal_location / (self.size - 1)))
+        return np.hstack((pos, self.goal_location / (self.size - 1))), info
 
     def step(self, action: int):
-        pos, reward, done, info = super().step(action)
+        pos, reward, terminated, truncated, info = super().step(action)
         obs = np.hstack((pos, self.goal_location / (self.size - 1)))
-        return obs, reward, done, info
+        return obs, reward, terminated, truncated, info
 
     def render(self, mode="human"):
         raise NotImplementedError

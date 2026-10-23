@@ -1,7 +1,7 @@
 from typing import List, Union
 
 import time
-import gym
+import gymnasium as gym
 import numpy as np
 import wandb
 from stable_baselines3.common.callbacks import EvalCallback
