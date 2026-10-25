@@ -192,7 +192,7 @@ if __name__ == '__main__':
                 args.exploration_final_eps
             peer = DQNPeer(**args_for_agent, seed=new_random_seed())
 
-        elif agent_algo in ['Adversarial', 'Expert', 'IntermittentAdversary', 'ReformedAdversary']:
+        elif agent_algo in ['Adversarial', 'Expert', 'IntermittentAdversary', 'ReformedAdversary', 'CriticalStateAdversary']:
             class_str = f"predefined_agents." \
                         f"{args.env.split('-')[0]}{agent_algo}"
             peer = eval(class_str)(**args_for_agent, seed=new_random_seed())
