@@ -2,9 +2,3 @@ from .frozen_lake_peer import FrozenLakeAdversarial, FrozenLakeExpert
 from .frozen_lake_intermittent_adversary import FrozenLakeIntermittentAdversary
 from .frozen_lake_reformed_adversary import FrozenLakeReformedAdversary
 from .frozen_lake_critical_state_adversary import FrozenLakeCriticalStateAdversary
-
-
-from .frozen_lake import FrozenLakeExpert, FrozenLakeAdversarial
-from .frozen_lake import FrozenLakeIntermittentAdversary
-from .frozen_lake import FrozenLakeReformedAdversary
-from .frozen_lake import FrozenLakeCriticalStateAdversary
