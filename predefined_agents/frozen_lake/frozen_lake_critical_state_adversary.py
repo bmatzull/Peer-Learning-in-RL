@@ -13,4 +13,4 @@ class FrozenLakeCriticalStateAdversary(FrozenLakeAdversarial):
             return FrozenLakeExpert._predict(self, obs, **kwargs)   # good advice
 
     def _get_bfs_distance(self, tile):
-        return self.bfs_distance.get(tile, float('inf'))
+        return self.bfs_distance.get(int(tile), float('inf'))

@@ -44,9 +44,9 @@ class FrozenLakeExpert(ManualPeer):
 
 
     def _predict(self, obs, **kwargs):
-        return self.optimal_policy[obs]
+        return self.optimal_policy[int(obs)]
 
 class FrozenLakeAdversarial(FrozenLakeExpert):
     def _predict(self, obs, **kwargs):
-        best = self.optimal_policy[obs]
+        best = self.optimal_policy[int(obs)]
         return (best + 2) % 4
