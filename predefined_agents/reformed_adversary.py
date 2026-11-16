@@ -2,7 +2,7 @@ from predefined_agents import RoomExpert, RoomAdversarial
 
 
 class RoomReformedAdversary(RoomAdversarial):
-    def __init__(self, total_steps=1000000, **kwargs):
+    def __init__(self, total_steps=None, **kwargs):
         super().__init__(**kwargs)
         self.total_steps = total_steps
         self.current_step = 0

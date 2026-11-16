@@ -55,6 +55,9 @@ class PeerEvalCallback(EvalCallback):
 
         super().__init__(**kwargs)
 
+        self.trust_timesteps = []
+        self.trust_snapshots = []
+
     def _on_step(self) -> bool:
         self.accumulate_followed_peers()  # needs to be done at every step
 
@@ -96,6 +99,19 @@ class PeerEvalCallback(EvalCallback):
         for j, el in np.ndenumerate(trust_i):
             wandb.log({'Peer{}_0/eval/trust_{}'.format(peer, j[0]): el},
                       commit=False)
+
+        if peer == len(self.peer_group) - 1:
+            snapshot = np.array([
+                self.peer_group.peers[p].trust.values
+                for p in range(len(self.peer_group))
+            ])
+            self.trust_snapshots.append(snapshot)
+            self.trust_timesteps.append(self.n_calls)
+            np.savez(
+                self.log_path + "/trust.npz",
+                timesteps=np.array(self.trust_timesteps),
+                trust=np.array(self.trust_snapshots),
+            )
         return True
 
     def accumulate_followed_peers(self):
