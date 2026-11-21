@@ -1,5 +1,6 @@
 from stable_baselines3 import DQN
 from peer import make_peer_class
+import torch
 
 
 class DQNPeer(make_peer_class(DQN)):
@@ -8,6 +9,7 @@ class DQNPeer(make_peer_class(DQN)):
     a critic function
     """
     def critic(self, observations, actions):
+        actions = torch.atleast_1d(actions)
         q_values = self.q_net(observations).reshape(len(actions), -1, 1)
         tmp = q_values[range(len(actions)), actions, :]
         return tmp, tmp  # SAC critic outputs multiple values, so this need

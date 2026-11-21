@@ -19,7 +19,7 @@ def make_env(env_str, n_envs=1, **env_args):
                 **env_args,
                 **({"is_slippery": False} if "FrozenLake" in env_str else {})
             }
-            env = Monitor(gym.make(env_str, **env_args))
+            env = Monitor(gym.make(env_str, **current_args))
             return env
 
         envs.append(env_func)
