@@ -70,11 +70,11 @@ class PeerEvalCallback(EvalCallback):
         if self.eval_freq > 0 and self.n_calls % self.eval_freq == 0:
             if 'agent_values' in self.peer_group.__dict__:
                 self.track_agent_values()
-            if 'trust_values' in self.peer_group.peers[0].__dict__:
+            peer = self.peer_group.active_peer
+            if hasattr(self.peer_group.peers[peer], 'trust_values'):
                 self.track_trust_values()
             self.track_followed_agent(self.peer_group.active_peer)
 
-            peer = self.peer_group.active_peer
             eval_values = {
                 f"Peer{peer}_0/eval/mean_reward": self.last_mean_reward,
             }
@@ -102,16 +102,18 @@ class PeerEvalCallback(EvalCallback):
 
         if peer == len(self.peer_group) - 1:
             snapshot = np.array([
-                self.peer_group.peers[p].trust.values
+                self.peer_group.peers[p].trust_values
                 for p in range(len(self.peer_group))
+                if hasattr(self.peer_group.peers[p], 'trust_values')
             ])
-            self.trust_snapshots.append(snapshot)
-            self.trust_timesteps.append(self.n_calls)
-            np.savez(
-                self.log_path + "/trust.npz",
-                timesteps=np.array(self.trust_timesteps),
-                trust=np.array(self.trust_snapshots),
-            )
+            if len(snapshot) > 0:
+                self.trust_snapshots.append(snapshot)
+                self.trust_timesteps.append(self.n_calls)
+                np.savez(
+                    self.log_path + "/trust.npz",
+                    timesteps=np.array(self.trust_timesteps),
+                    trust=np.array(self.trust_snapshots),
+                )
         return True
 
     def accumulate_followed_peers(self):

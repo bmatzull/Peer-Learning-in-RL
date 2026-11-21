@@ -15,6 +15,10 @@ def make_env(env_str, n_envs=1, **env_args):
     envs = []
     for _ in range(n_envs):
         def env_func():
+            current_args = {
+                **env_args,
+                **({"is_slippery": False} if "FrozenLake" in env_str else {})
+            }
             env = Monitor(gym.make(env_str, **env_args))
             return env
 
