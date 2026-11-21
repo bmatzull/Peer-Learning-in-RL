@@ -2,3 +2,8 @@ from .room_peer import RoomAdversarial, RoomExpert
 from .intermittent_adversary import RoomIntermittentAdversary
 from .reformed_adversary import RoomReformedAdversary
 from .critical_state_adversary import RoomCriticalStateAdversary
+
+from .frozen_lake import FrozenLakeAdversarial, FrozenLakeExpert
+from .frozen_lake import FrozenLakeIntermittentAdversary
+from .frozen_lake import FrozenLakeReformedAdversary
+from .frozen_lake import FrozenLakeCriticalStateAdversary

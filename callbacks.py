@@ -1,5 +1,6 @@
 from typing import List, Union
 
+import os
 import time
 import gymnasium as gym
 import numpy as np
@@ -109,8 +110,9 @@ class PeerEvalCallback(EvalCallback):
             if len(snapshot) > 0:
                 self.trust_snapshots.append(snapshot)
                 self.trust_timesteps.append(self.n_calls)
+                trust_dir = os.path.dirname(self.log_path)
                 np.savez(
-                    self.log_path + "/trust.npz",
+                    os.path.join(trust_dir, "trust.npz"),
                     timesteps=np.array(self.trust_timesteps),
                     trust=np.array(self.trust_snapshots),
                 )
