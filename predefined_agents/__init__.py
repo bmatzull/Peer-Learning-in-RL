@@ -7,3 +7,8 @@ from .frozen_lake import FrozenLakeAdversarial, FrozenLakeExpert
 from .frozen_lake import FrozenLakeIntermittentAdversary
 from .frozen_lake import FrozenLakeReformedAdversary
 from .frozen_lake import FrozenLakeCriticalStateAdversary
+
+from .mujoco import HalfCheetahExpert, HalfCheetahAdversarial
+from .mujoco import HalfCheetahIntermittentAdversary
+from .mujoco import HalfCheetahReformedAdversary
+from .mujoco import HalfCheetahCriticalStateAdversary
