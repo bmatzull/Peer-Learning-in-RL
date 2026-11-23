@@ -4,9 +4,9 @@ from manual_peer import ManualPeer
 
 class FrozenLakeExpert(ManualPeer):
 
-    GRID_SIZE = 4
-    HOLES = {5, 7, 11, 12}
-    GOAL = 15
+    GRID_SIZE = 8
+    HOLES = {19, 29, 35, 41, 42, 46, 49, 52, 59}
+    GOAL = 63
 
     def __init__(self, **kwargs):
         super().__init__(**kwargs)

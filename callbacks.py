@@ -103,7 +103,7 @@ class PeerEvalCallback(EvalCallback):
 
         if peer == len(self.peer_group) - 1:
             snapshot = np.array([
-                self.peer_group.peers[p].trust_values
+                self.peer_group.peers[p].trust_values.copy()
                 for p in range(len(self.peer_group))
                 if hasattr(self.peer_group.peers[p], 'trust_values')
             ])
