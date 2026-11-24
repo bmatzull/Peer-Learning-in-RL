@@ -1,5 +1,5 @@
 from .room_peer import RoomAdversarial, RoomExpert
-from .intermittent_adversary import RoomIntermittentAdversary
+from .intermittent_adversary import *
 from .reformed_adversary import RoomReformedAdversary
 from .critical_state_adversary import RoomCriticalStateAdversary
 
